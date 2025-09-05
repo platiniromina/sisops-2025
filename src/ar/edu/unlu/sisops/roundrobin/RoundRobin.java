@@ -87,9 +87,6 @@ public class RoundRobin {
             while ( iterator.hasNext() ) {
                 Proceso proceso = iterator.next();
 
-                // Si ya no queda ningún proceso en la cola
-                if ( proceso == null ) break;
-
                 // Si el proceso es distinto del anterior y si el anterior no es nulo (es decir el primero), se desaloja
                 if ( procesoAnt != proceso && procesoAnt != null ) {
                     reloj += tiempoDeIntercambio / 2;
