@@ -5,13 +5,11 @@ import java.util.Scanner;
 public class RoundRobin {
 
     static class Proceso{
-        int id;
+        String id;
         int tiempoDeServicio;
         int tiempoRestante;
-        int tiempoDeRetorno; //Tiempo total. desde que entró hasta que salió
-        int tiempoDeEspera; //Para calcular el tiempo de espera. Tiempo en que no fue atendido
-
-        public Proceso(int id, int tiempoDeServicio){
+        boolean mostrado = false;
+        public Proceso(String id, int tiempoDeServicio){
             this.id = id;
             this.tiempoDeServicio= tiempoDeServicio;
             this.tiempoRestante = tiempoDeServicio;
@@ -29,7 +27,7 @@ public class RoundRobin {
     private static final float q = 4;
     private static ArrayList<Proceso> procesos = new ArrayList<>();
 
-    public static void agregarProceso(int id, int tiempoDeServicio){
+    public static void agregarProceso(String id, int tiempoDeServicio){
         Proceso p = new Proceso(id, tiempoDeServicio);
         procesos.add(p);
     }
@@ -37,7 +35,6 @@ public class RoundRobin {
         float tiempoDeIntercambio = q/4;
         float reloj=0;
         ArrayList<Registro> registros = new ArrayList<>();
-        Registro registro = new Registro();
         int sumaTiempoRestante = procesos.stream().mapToInt(p ->p.tiempoRestante).sum();
         Proceso procesoAnt = null;
         while(sumaTiempoRestante > 0){
@@ -69,13 +66,20 @@ public class RoundRobin {
                     reloj += proceso.tiempoRestante;
                     proceso.tiempoRestante = 0;
 
-                    System.out.println("proceso:"+proceso.id+"ha sido terminado"+"\nReloj:"+reloj);
-                    //almaceno en registro el proceso junto con su tiempo de espera y su tiempo de retorno
-                    registro.proceso = proceso;
-                    registro.tiempoDeEspera = reloj - proceso.tiempoDeServicio;
-                    registro.tiempoDeRetorno = reloj;
-                    registros.add(registro);
+                    if(proceso.mostrado == false){
+                        System.out.println("proceso: '"+proceso.id+"' ha sido terminado"+"\nReloj:"+reloj);
+                        //almaceno en registro el proceso junto con su tiempo de espera y su tiempo de retorno
+                        Registro registro = new Registro();
+                        registro.proceso = proceso;
+                        registro.tiempoDeEspera = reloj - proceso.tiempoDeServicio;
+                        registro.tiempoDeRetorno = reloj;
+                        registros.add(registro);
+                        proceso.mostrado = true;
+                    }
+
                 }
+                //Saco el proceso de la cola, porque ya se terminó de atender
+
                 procesoAnt = proceso;
             }
             sumaTiempoRestante = procesos.stream().mapToInt(p ->p.tiempoRestante).sum();
@@ -101,15 +105,16 @@ public class RoundRobin {
             System.out.println("2.Cargar más procesos");
             System.out.println("3.Salir");
             int op = sc.nextInt();
+            sc.nextLine();
             switch (op) {
                 case 1 -> {
                     roundRobin();
                     //borrar procesos
                 }
                 case 2 -> {
-                    System.out.println("Ingrese id del proceso:");
-                    int id = sc.nextInt();
-                    System.out.println("Ingrese tiempo de servicio del proceso:");
+                    System.out.print("Ingrese id del proceso:");
+                    String id = sc.nextLine();
+                    System.out.print("Ingrese tiempo de servicio del proceso:");
                     int tiempoDeServicio = sc.nextInt();
                     agregarProceso(id, tiempoDeServicio);
                 }
@@ -120,5 +125,7 @@ public class RoundRobin {
             }
 
         }
+        sc.close();
     }
 }
+
