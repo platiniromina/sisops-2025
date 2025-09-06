@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
-public class RoundRobin {
+public class RoundRobin_v2 {
 
     private static final float Q = 4;
     private static final ArrayList<Proceso> procesos = new ArrayList<>();
@@ -44,7 +44,7 @@ public class RoundRobin {
 
 
         while ( !exit ) {
-            System.out.println("Menu Round Robin: ");
+            System.out.println("\tMenú Round Robin");
             System.out.println("1. Comenzar round robin (con los procesos cargados)");
             System.out.println("2. Cargar más procesos");
             System.out.println("3. Salir");
