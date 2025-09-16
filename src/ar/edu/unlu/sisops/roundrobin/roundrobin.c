@@ -107,6 +107,7 @@ int main(int argc, char **argv) {
 
     // argv[0] es el nombre del programa, arg[1] es el quantum
     int quantum = atoi(argv[1]);
+    // a partir de argv[2] encontramos los tiempos de los procesos a atender
     int cantProcesos = argc - 2;
 
     registro *registros = malloc(sizeof(registro) * cantProcesos);
