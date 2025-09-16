@@ -2,7 +2,7 @@
 
 Para compilar, crear una carpeta llamada `build` y ejecutar: 
 ```
-clang -g src/ar/edu/unlu/sisops/roundrobin/roundrobin.c -o build/roundrobin
+gcc -g -Wall src/ar/edu/unlu/sisops/roundrobin/roundrobin.c -o build/roundrobin
 ```
 
 Luego para correr el programa:
